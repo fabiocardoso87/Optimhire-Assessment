@@ -1,29 +1,31 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
 Cypress.Commands.add("login", (username, password) => {
   cy.get("#login2").click();
+  cy.wait(1000);
   cy.get("#loginusername").type(username);
   cy.get("#loginpassword").type(password);
-  cy.get("#logInModal .modal-footer .btn-primary").click();
+  cy.get("button").contains("Log in").click();
+});
+
+Cypress.Commands.add("addPhoneCart", () => {
+  cy.get('#itemc:contains("Phones")').click();
+  cy.contains("Samsung galaxy s6").click();
+  cy.contains("Add to cart").click();
+  cy.contains("Home").click();
+  cy.get('#itemc:contains("Phones")').click();
+  cy.contains("Nexus 6").click();
+  cy.contains("Add to cart").click();
+  cy.contains("Cart").click();
 });
 
 Cypress.Commands.add("signup", (username, password) => {
   cy.get("#signin2").click();
   cy.get("#sign-username").type(username);
   cy.get("#sign-password").type(password);
-  cy.get("#signInModal .modal-footer .btn-primary").click();
+  cy.get("button").contains("Sign up").click();
 });
 
 Cypress.Commands.add("placeOrder", () => {
-  cy.wait(3000);
+  cy.wait(2000);
   cy.contains("Place Order").click();
 
   cy.get("#orderModal", { timeout: 10000 });
@@ -40,17 +42,3 @@ Cypress.Commands.add("placeOrder", () => {
 Cypress.Commands.add("waitForModalAndType", (inputSelector, text) => {
   cy.get(inputSelector, { timeout: 10000 }).eq(0).type(text, { force: true });
 });
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
